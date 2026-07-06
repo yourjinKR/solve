@@ -1,34 +1,45 @@
-<h2><a href="https://leetcode.com/problems/concatenation-of-array">1929. Concatenation of Array</a></h2><h3>Easy</h3><hr><p>Given an integer array <code>nums</code> of length <code>n</code>, you want to create an array <code>ans</code> of length <code>2n</code> where <code>ans[i] == nums[i]</code> and <code>ans[i + n] == nums[i]</code> for <code>0 &lt;= i &lt; n</code> (<strong>0-indexed</strong>).</p>
+### 기존 풀이
+- 일정 길이의 배열을 2개로 붙이는 것
+- `[1,2,3]` -> `[1,2,3,1,2,3]`
 
-<p>Specifically, <code>ans</code> is the <strong>concatenation</strong> of two <code>nums</code> arrays.</p>
+```java
+class Solution {
+    public int[] getConcatenation(int[] nums) {
+        int totalLength = nums.length * 2;
+        int[] ans = new int[totalLength];
 
-<p>Return <em>the array </em><code>ans</code>.</p>
+        int i = 0;
+        int j = 0;
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+        for (i = 0; i < nums.length; i++, j++) {
+            ans[i] = nums[i];
+        }
 
-<pre>
-<strong>Input:</strong> nums = [1,2,1]
-<strong>Output:</strong> [1,2,1,1,2,1]
-<strong>Explanation:</strong> The array ans is formed as follows:
-- ans = [nums[0],nums[1],nums[2],nums[0],nums[1],nums[2]]
-- ans = [1,2,1,1,2,1]</pre>
+        for (i = 0; i < nums.length; i++, j++) {
+            ans[j] = nums[i];
+        }
 
-<p><strong class="example">Example 2:</strong></p>
+        return ans;
+    }
+}
+```
 
-<pre>
-<strong>Input:</strong> nums = [1,3,2,1]
-<strong>Output:</strong> [1,3,2,1,1,3,2,1]
-<strong>Explanation:</strong> The array ans is formed as follows:
-- ans = [nums[0],nums[1],nums[2],nums[3],nums[0],nums[1],nums[2],nums[3]]
-- ans = [1,3,2,1,1,3,2,1]
-</pre>
+### 개선 방식
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+- 기존에는 `nums`만큼 2번 돌았다면 아래 방식은 1번 돌되 그 배열의 길이만큼 인덱스를 추가하여 동시에 넣는다.
+- 루프를 최대한 줄일 수 있는 방식을 고민
 
-<ul>
-	<li><code>n == nums.length</code></li>
-	<li><code>1 &lt;= n &lt;= 1000</code></li>
-	<li><code>1 &lt;= nums[i] &lt;= 1000</code></li>
-</ul>
+```java
+class Solution {
+    public int[] getConcatenation(int[] nums) {
+        int n = nums.length;
+        int[] ans = new int[2*n];
+        for(int i=0;i<n;i++){
+            ans[i]=nums[i];
+            ans[i+n]=nums[i];
+        }
+        return ans;
+    }
+}
+
+```
