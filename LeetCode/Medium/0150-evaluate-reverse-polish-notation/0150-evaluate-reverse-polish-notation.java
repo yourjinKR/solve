@@ -1,34 +1,23 @@
 class Solution {
-    static String PLUS = "+";
-    static String MINUS = "-";
-    static String MULTIPLY = "*";
-    static String DIVIDE = "/";
-    static Set<String> OPERATION = Set.of(PLUS, MINUS, MULTIPLY, DIVIDE);
+    static Map<String, IntBinaryOperator> calculator = Map.of(
+            "+", (a, b) -> b + a,
+            "-", (a, b) -> b - a,
+            "*", (a, b) -> b * a,
+            "/", (a, b) -> b / a
+    );
+
     public int evalRPN(String[] tokens) {
         Stack<Integer> stack = new Stack<>();
 
         for (int i = 0; i < tokens.length; i++) {
             String token = tokens[i];
-            if (OPERATION.contains(token)) {
-                Integer second = stack.pop();
-                Integer first = stack.pop();
-                int result = 0;
-                if (token.equals(PLUS)) {
-                    result = first + second;
-                } else if (token.equals(MINUS)) {
-                    result = first - second;
-                } else if (token.equals(MULTIPLY)) {
-                    result = first * second;
-                } else if (token.equals(DIVIDE)) {
-                    result = first / second;
-                }
-                stack.add(result);
+            IntBinaryOperator oper = calculator.get(token);
+            if (oper == null) {
+                stack.add(Integer.parseInt(token));
             } else {
-                int num = Integer.parseInt(token);
-                stack.add(num);
+                stack.add(oper.applyAsInt(stack.pop(), stack.pop()));
             }
         }
-
         return stack.pop();
     }
 }
